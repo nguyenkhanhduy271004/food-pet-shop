@@ -1,0 +1,27 @@
+.card {
+    width: 316px;
+
+    .ant-statistic-title {
+        font-size: 24px !important;
+        color: #fff;
+    }
+
+    .icon {
+        font-size: 24px !important;
+
+        svg {
+            width: 24px !important;
+            height: 24px !important;
+        }
+    }
+
+    .statistic {
+        .ant-statistic-content {
+            font-size: 20px !important;
+
+            .ant-statistic-content-value {
+                color: #fff;
+            }
+        }
+    }
+}

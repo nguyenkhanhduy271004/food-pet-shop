@@ -1,0 +1,36 @@
+.container {
+    margin-top: 60px;
+    text-align: center;
+
+    h2 {
+        margin-bottom: 60px;
+        font-weight: 600;
+    }
+
+    .image-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        .image {
+            transition: transform 0.3s ease, opacity 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+
+            &.appear {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image:hover {
+            transform: scale(1.05);
+        }
+
+        img {
+            width: 160px;
+        }
+    }
+}

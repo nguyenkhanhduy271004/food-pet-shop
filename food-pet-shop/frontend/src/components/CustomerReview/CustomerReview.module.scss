@@ -1,0 +1,134 @@
+.container {
+    margin: 0 130px;
+    padding: 20px;
+    border: 1px solid #eeeeee;
+    margin-bottom: 100px;
+
+    .container-top {
+        display: flex;
+        flex-direction: column;
+
+
+        .progress-rating-bar {
+            display: flex;
+            align-items: start;
+            gap: 20px;
+
+            .slider {
+                width: 1px;
+                height: 140px;
+                border: 1px solid #eeeeee;
+            }
+
+            .left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .right {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+
+                .progress-rating-bar-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+
+                    &:hover {
+                        opacity: 0.8;
+                    }
+
+                }
+
+                .text-view-all {
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: 0.8;
+                    }
+                }
+
+            }
+
+            .btn-evaluate {
+                border: 1px solid #eeeeee;
+                padding: 10px 40px;
+                cursor: pointer;
+                position: absolute;
+                right: 200px;
+            }
+
+            .btn-evaluate:hover {
+                opacity: 0.6;
+            }
+        }
+
+        .evaluate-container {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.5s ease;
+
+            &.show {
+                max-height: 500px;
+                opacity: 1;
+            }
+
+
+            .slider {
+                border: 1px solid #eeeeee;
+                width: 100%;
+                height: 1px;
+                margin: 20px 0;
+            }
+
+            .submit-btn {
+                border: none;
+                width: 100px;
+                border-radius: 4px;
+                padding: 6px;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
+    .container-bot {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+
+        .slider {
+            border: 1px solid #eeeeee;
+            width: 100%;
+            height: 1px;
+            margin: 20px 0;
+        }
+
+        .customer-review-container {
+            display: flex;
+            gap: 20px;
+
+            .customer-review-container-item {
+                display: flex;
+                border: 1px solid #eeeeee;
+                padding: 20px;
+                flex-direction: column;
+                gap: 4px;
+                width: 392px;
+
+                .text-review {
+                    height: 120px;
+                }
+
+            }
+        }
+    }
+}

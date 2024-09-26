@@ -1,0 +1,25 @@
+.cart-bottom {
+    margin-left: 20px;
+
+    .step-container {
+        margin-bottom: 40px;
+    }
+
+    .cart-total-details {
+        p {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    }
+
+    .cart-total-details {
+        b {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    }
+
+    .checkout-btn {
+        margin-top: 20px;
+    }
+}

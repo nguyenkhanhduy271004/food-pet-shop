@@ -1,0 +1,130 @@
+$primary-color: #4f3426;
+
+.all-product-container {
+    margin-top: 140px;
+    margin-left: 60px;
+    margin-right: 60px;
+
+    .title {
+        display: flex;
+        font-size: 1.2rem;
+        align-items: center;
+        justify-content: start;
+        gap: 4px;
+        font-weight: 400;
+
+        .home-text {
+            span {
+                color: #4f3426;
+            }
+        }
+
+        i {
+            margin-bottom: 2px;
+            font-size: 0.6rem;
+            color: #949494;
+        }
+
+        .title-text {
+            color: #949494;
+        }
+    }
+
+    .filter-container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+
+        .filter-option {
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+            .filter-option-title {
+                width: 200px;
+                font-weight: 600;
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                cursor: pointer;
+            }
+
+            .options-container {
+                margin-top: 10px;
+                margin-left: 10px;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+
+                .option-container {
+                    display: flex;
+                    align-items: center;
+                    gap: 4px;
+
+                    input {
+                        width: 30px;
+                        height: 16px;
+                        outline: none;
+                        border: 1px solid #ddd;
+                    }
+
+                    span {
+                        font-weight: 300;
+                        font-size: 1rem;
+                    }
+                }
+            }
+
+        }
+    }
+
+    .divider {
+        height: 4px;
+        width: 200px;
+        border-bottom: 1px solid #d9d9d9;
+        margin: 0;
+    }
+
+    .sort-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        .sort-text {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+    }
+}
+
+.option-active {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .option-tag {
+        background-color: #0075ff;
+        padding: 4px;
+        color: #fff;
+        border-radius: 8px;
+        cursor: pointer;
+
+        .delete-btn {
+            font-size: 1rem;
+            margin-left: 8px;
+        }
+    }
+
+    .clear-all-btn {
+        cursor: pointer;
+        border: 1px solid #4f3426;
+        padding: 5px;
+        color: #4f3426;
+        border-radius: 8px;
+    }
+
+}
+
+.hidden {
+    display: none
+}
