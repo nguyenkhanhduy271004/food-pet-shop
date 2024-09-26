@@ -136,8 +136,15 @@ function Login() {
                     <Button type="primary" htmlType="submit" className="register-form-button" style={{ marginRight: '4px' }}>
                         {isLogin ? 'Login' : 'Register'}
                     </Button>
-                    Or <span className="login-text" onClick={() => setIsLogin(!isLogin)}>{isLogin ? 'Register here' : 'Login here'}</span>
                 </Form.Item>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    {isLogin
+                        ? <span>You haven't an account?</span>
+                        : <span>You have an account?</span>
+                    }
+                    <span className="login-text" onClick={() => setIsLogin(!isLogin)} style={{ marginLeft: '2px' }}>{isLogin ? 'Register here' : 'Login here'}</span>
+
+                </div>
             </Form>
         </Modal>
     );

@@ -57,7 +57,7 @@ const Cart = () => {
     }, [curStep, token]);
 
     return (
-        <div className='cart-container' style={{ marginTop: '140px', marginLeft: '80px', marginRight: '80px' }}>
+        <div className='cart-container' style={{ marginTop: '160px', marginLeft: '80px', marginRight: '80px' }}>
             <Steps
                 size="small"
                 current={curStep}

@@ -1,0 +1,7 @@
+.loader-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 200vh;
+    padding-bottom: 50px;
+}

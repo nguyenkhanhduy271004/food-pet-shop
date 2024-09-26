@@ -30,7 +30,6 @@ function Home() {
                 <Categories />
                 <FeaturedBrands />
             </div>
-            <Footer />
             <FloatButton.BackTop />
         </div>
     )

@@ -85,9 +85,21 @@ $primary-color: #4f3426;
 }
 
 .navbar-container {
+    margin-top: 44px !important;
     padding: 0 80px;
     background-color: red;
+    transition: margin-top ease;
 }
+
+.no-banner .navbar-container {
+    margin-top: 0 !important;
+    transition: margin-top ease;
+}
+
+.header-banner {
+    transition: opacity ease;
+}
+
 
 .logo {
     width: 80px;
@@ -144,6 +156,33 @@ $primary-color: #4f3426;
     height: 24px;
     cursor: pointer;
 }
+
+.nav-item-span {
+    span {
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+}
+
+.header-banner {
+    background-color: #f1f1f1;
+    color: #333;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 16px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.navbar-container {
+    margin-top: 50px;
+}
+
 
 @keyframes phonering-alo-circle-img-anim {
     0% {

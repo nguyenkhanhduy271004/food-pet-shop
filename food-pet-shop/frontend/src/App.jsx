@@ -11,15 +11,16 @@ import MyOrders from './pages/MyOrders/MyOrders';
 import AllProduct from './pages/AllProduct/AllProduct';
 import { StoreContext } from './context/StoreContext';
 import ItemDetails from './pages/ItemDetails/ItemDetails';
+import Contact from './pages/Contact/Contact';
+import About from './pages/About/About';
+import Footer from './components/Footer/Footer';
+
+import './App.css'
 
 const override = {
   display: 'block',
   margin: '0 auto',
   borderColor: 'red',
-  flex: 1,
-  marginTop: 240,
-  justifyContent: 'center',
-  alignItems: 'center'
 };
 
 function App() {
@@ -51,7 +52,6 @@ function App() {
     }
   };
 
-
   useEffect(() => {
     fetchingUserAccount();
   }, [token]);
@@ -59,22 +59,26 @@ function App() {
   return (
     <>
       {isLoading ? (
-        <ClipLoader
-          color={color}
-          loading={isLoading}
-          cssOverride={override}
-          size={150}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
+        <div className="loader-wrapper">
+          <ClipLoader
+            color={color}
+            loading={isLoading}
+            cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
       ) : (
         <>
           {showModalLogin && <Login />}
-          <div className='app'>
+          <div className="app">
             <Navbar setShowModalLogin={setShowModalLogin} />
             <Routes>
               <Route path='' element={<Home />} />
               <Route path='/cart' element={<Cart />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/contact' element={<Contact />} />
               <Route path='/my-orders' element={<MyOrders />} />
               <Route path='/all-products' element={<AllProduct />} />
               <Route path='/all-products/product-for-dog' element={<AllProduct category='dog' title='All Product For Dog' />} />
@@ -93,6 +97,7 @@ function App() {
               <Route path='/all-products/cat-carriers' element={<AllProduct category='cat' subCategory='carriers' title='Cat Carriers' />} />
               <Route path="/products/:id" element={<ItemDetails />} />
             </Routes>
+            <Footer />
           </div>
         </>
       )}

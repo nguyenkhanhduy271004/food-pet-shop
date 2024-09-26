@@ -3,13 +3,22 @@ import cart_logo from './basket_icon.png'
 import background from './background.jpg'
 import parcel_icon from './parcel_icon.png'
 import profile_img from './profile_icon.png'
+import visa_icon from './visa_icon.webp'
+import paypal_icon from './paypal_icon.png'
+import mastercard_icon from './mastercard_icon.png'
+import code_icon from './cod_icon.webp'
+
 
 export const assets = {
     logo,
     cart_logo,
     background,
     profile_img,
-    parcel_icon
+    parcel_icon,
+    visa_icon,
+    paypal_icon,
+    mastercard_icon,
+    code_icon
 }
 export const dogCategories = [
     {
