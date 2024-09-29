@@ -46,9 +46,13 @@ const StoreContextProvider = (props) => {
 
     const getTotalQuantity = () => {
         let totalQuantity = 0;
+        console.log(Object.keys(cartItems).length);
+        console.log(cartItems);
+
+
         for (const itemId in cartItems) {
             if (cartItems[itemId] > 0) {
-                totalQuantity += cartItems[itemId];
+                totalQuantity += 1;
             }
         }
         return totalQuantity;

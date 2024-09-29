@@ -4,33 +4,40 @@ import productModel from '../models/productModel.js'
 
 const addToCart = async (req, res) => {
     try {
-        let userData = await userModel.findById(req.body.userId);
-        const quantity = req.body.quantity;
-        let cartData = userData.cartData;
+        const { userId, itemId, quantity } = req.body;
 
-        // Retrieve current stock quantity of the product
-        let product = await productModel.findById(req.body.itemId);
+        let user = await userModel.findById(userId);
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        let product = await productModel.findById(itemId);
         if (!product) {
             return res.json({ success: false, message: 'Product not found' });
         }
-        let stockQuantity = product.stockQuantity;
 
-        if (!cartData[req.body.itemId]) {
-            cartData[req.body.itemId] = quantity;
-        } else {
-            cartData[req.body.itemId] += quantity;
+        if (quantity > product.stockQuantity) {
+            return res.json({ success: false, message: 'Insufficient stock' });
         }
 
-        await productModel.findByIdAndUpdate(req.body.itemId, { stockQuantity: stockQuantity - quantity });
+        let cartData = user.cartData || {};
+        if (!cartData[itemId]) {
+            cartData[itemId] = quantity;
+        } else {
+            cartData[itemId] += quantity;
+        }
 
-        await userModel.findByIdAndUpdate(req.body.userId, { cartData });
+        await productModel.findByIdAndUpdate(itemId, { $inc: { stockQuantity: -quantity } });
 
-        res.json({ success: true, message: 'Added to cart' });
+        await userModel.findByIdAndUpdate(userId, { cartData });
+
+        return res.json({ success: true, message: 'Added to cart' });
     } catch (err) {
-        console.log(err);
-        res.json({ success: false, message: 'Error' });
+        console.error(err);
+        return res.status(500).json({ success: false, message: 'Server error' });
     }
-}
+};
+
 
 
 const removeFromCart = async (req, res) => {

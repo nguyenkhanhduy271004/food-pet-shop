@@ -35,7 +35,7 @@ const loginUser = async (req, res) => {
     try {
         const user = await userModel.findOne({ username })
         if (!user) {
-            return res.json({ success: false, message: "User doesn't exists" })
+            return res.json({ success: false, message: "Invalid Username/Password" })
         }
 
         const isMatch = await bcrypt.compare(password, user.password)
@@ -69,29 +69,37 @@ const generateRefreshToken = (data) => {
 }
 
 const registerUser = async (req, res) => {
-    const { username, password } = req.body
+    const { username, password } = req.body;
     try {
-        const exists = await userModel.findOne({ username })
+        const exists = await userModel.findOne({ username });
         if (exists) {
-            return res.json({ success: false, message: 'User already exists' })
+            return res.json({ success: false, message: 'User already exists' });
         }
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(password, salt)
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new userModel({
             username: username,
             password: hashedPassword
-        })
-        const user = await newUser.save()
+        });
 
-        const token = createToken(user._id)
-        res.json({ success: true, token })
+        const user = await newUser.save();
+
+        const access_token = generateAccessToken(user);
+        const refresh_token = generateRefreshToken(user);
+
+        res.cookie('accessToken', access_token, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: +process.env.MAX_AGE_ACCESS_TOKEN });
+        res.cookie('refreshToken', refresh_token, { httpOnly: true, secure: false, sameSite: 'Lax', maxAge: +process.env.MAX_AGE_REFRESH_TOKEN });
+
+        res.json({ success: true, data: { access_token, refresh_token } });
 
     } catch (err) {
-        console.log(err)
-        res.json({ success: false, message: 'Error' })
+        console.log(err);
+        res.json({ success: false, message: 'Error' });
     }
-}
+};
+
 
 const listUser = async (req, res) => {
     try {
