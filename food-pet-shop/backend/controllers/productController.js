@@ -27,6 +27,38 @@ const addProduct = async (req, res) => {
 
 }
 
+const addBulkProducts = async (req, res) => {
+    const { products } = req.body;
+    console.log(products);
+
+
+    if (!products || !Array.isArray(products)) {
+        return res.status(400).json({ success: false, message: "I   nvalid input" });
+    }
+
+    try {
+        const productPromises = products.map(product => {
+            const newProduct = new productModel({
+                name: product.name,
+                brand: product.brand,
+                price: product.price,
+                category: product.category || 'dog',
+                subCategory: product.subCategory,
+                stockQuantity: product.stockQuantity,
+                image: [],
+                rate: 5
+            });
+            return newProduct.save();
+        });
+
+        await Promise.all(productPromises);
+        res.json({ success: true, message: 'Products added successfully' });
+    } catch (error) {
+        console.error('Error adding products:', error);
+        res.status(500).json({ success: false, message: 'Error adding products' });
+    }
+};
+
 const removeProduct = async (req, res) => {
     try {
         const product = await productModel.findById(req.body.id)
@@ -91,4 +123,4 @@ const listProduct = (req, res) => {
 };
 
 
-export { addProduct, removeProduct, updateProduct, listProduct }
+export { addProduct, addBulkProducts, removeProduct, updateProduct, listProduct }

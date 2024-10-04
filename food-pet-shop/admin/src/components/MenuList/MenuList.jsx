@@ -29,11 +29,6 @@ function MenuList({ darkTheme }) {
             icon: <ShoppingCartOutlined />,
             label: <Link to='/orders'>Orders</Link>
         },
-        {
-            key: '/setting',
-            icon: <SettingOutlined />,
-            label: 'Setting',
-        },
     ];
 
     return (
