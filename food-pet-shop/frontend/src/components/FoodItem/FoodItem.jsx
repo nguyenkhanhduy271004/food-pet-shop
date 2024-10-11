@@ -64,7 +64,7 @@ function FoodItem({ item }) {
         <>
             {contextHolder}
             <div className='food-item-container'>
-                <div className="card" style={{ width: '18rem' }}>
+                <div className="card">
                     <img src={`${url}/images/${item.image[0]}`} className="card-img-top" alt="..." onClick={() => handleClickItem(item)} />
                     <div className="card-body">
                         <div onClick={() => handleClickItem(item)}>

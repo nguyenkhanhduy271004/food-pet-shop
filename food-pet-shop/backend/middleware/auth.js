@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { refreshTokenUser } from '../controllers/userController.js';
+import { refreshTokenUser } from '../controllers/user.controller.js';
 
 const authMiddleware = async (req, res, next) => {
     let token = req.headers.authorization && req.headers.authorization.split(' ')[1];

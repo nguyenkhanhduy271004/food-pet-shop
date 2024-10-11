@@ -1,5 +1,5 @@
 import express from 'express'
-import { addCustomerReview, getAllReviewCustomer } from '../controllers/customerReviewController.js'
+import { addCustomerReview, getAllReviewCustomer } from '../controllers/customer.review.controller.js'
 const customerReviewRoute = express.Router()
 
 customerReviewRoute.post('/add-customer-review', addCustomerReview);

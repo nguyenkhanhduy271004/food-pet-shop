@@ -1,6 +1,6 @@
 import express from 'express'
 import authMiddleware from '../middleware/auth.js'
-import { listOrders, placeOrder, updateStatus, userOrders } from '../controllers/orderController.js'
+import { listOrders, placeOrder, updateStatus, userOrders } from '../controllers/order.controller.js'
 
 const orderRoute = express.Router()
 
