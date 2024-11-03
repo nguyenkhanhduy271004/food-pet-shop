@@ -12,6 +12,7 @@ function WishList() {
     const [messageApi, contextHolder] = message.useMessage();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const fetchWishList = async () => {
             setLoading(true);
             try {

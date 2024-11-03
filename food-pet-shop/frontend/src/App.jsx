@@ -17,6 +17,7 @@ import Footer from './components/Footer/Footer';
 
 import './App.css'
 import WishList from './pages/WishList/WishList';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 const override = {
   display: 'block',
@@ -98,6 +99,7 @@ function App() {
               <Route path='/all-products/cat-carriers' element={<AllProduct category='cat' subCategory='carriers' title='Cat Carriers' />} />
               <Route path="/products/:id" element={<ItemDetails />} />
               <Route path="/wish-list" element={<WishList />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <Footer />
           </div>

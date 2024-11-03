@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Input, Upload, message, Modal } from 'antd';
 import { UploadOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { StoreContext } from '../../context/StoreContext';
 import axios from 'axios';
+import { useContext } from 'react';
 
 const { Dragger } = Upload;
 
-function Category({ url }) {
+function Category() {
+    const { url, token } = useContext(StoreContext);
     const [categories, setCategories] = useState([]);
     const [newCategory, setNewCategory] = useState({ name: '', description: '' });
     const [editingCategory, setEditingCategory] = useState(null);
@@ -21,7 +24,10 @@ function Category({ url }) {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get(`${url}/api/category/list-category`);
+            const response = await axios.get(`${url}/api/category/list-category`, {
+                headers: { token },
+                withCredentials: true
+            });
             if (response.data.success) {
                 setCategories(response.data.data);
             }
@@ -37,7 +43,10 @@ function Category({ url }) {
         newImages.forEach((image) => formData.append('images', image));
 
         try {
-            const response = await axios.post(`${url}/api/category/add-category`, formData);
+            const response = await axios.post(`${url}/api/category/add-category`, formData, {
+                headers: { token },
+                withCredentials: true
+            });
             if (response.data.success) {
                 message.success('Category added successfully');
                 fetchCategories();
@@ -53,7 +62,10 @@ function Category({ url }) {
 
     const handleDeleteCategory = async (categoryId) => {
         try {
-            const response = await axios.delete(`${url}/api/category/delete-category/${categoryId}`);
+            const response = await axios.delete(`${url}/api/category/delete-category/${categoryId}`, {
+                headers: { token },
+                withCredentials: true
+            });
             if (response.data.success) {
                 message.success('Category deleted successfully');
                 fetchCategories();
@@ -82,10 +94,9 @@ function Category({ url }) {
         formData.append('deletedImages', JSON.stringify(deletedImages));
 
         try {
-            const response = await axios.put(`${url}/api/category/update-category/${editingCategory._id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            const response = await axios.post(`${url}/api/category/update-category/${editingCategory._id}`, formData, {
+                headers: { token },
+                withCredentials: true
             });
             if (response.data.success) {
                 message.success('Category updated successfully');

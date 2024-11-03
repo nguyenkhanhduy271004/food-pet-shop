@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-
+import { authIsAdmin } from '../middleware/auth.js';
 import {
     addCategoryController, listCategoryController,
     findCategoryByIdController, updateCategoryController,
@@ -17,10 +17,10 @@ const storage = multer.diskStorage({
 const categoryRoute = express.Router();
 const upload = multer({ storage: storage });
 
-categoryRoute.post('/add-category', upload.array('images', 1), addCategoryController);
-categoryRoute.get('/list-category', listCategoryController);
-categoryRoute.get('/category-by-id/:categoryId', findCategoryByIdController);
-categoryRoute.put('/update-category/:categoryId', upload.array('images', 1), updateCategoryController);
-categoryRoute.delete('/delete-category/:categoryId', removeCategoryController);
+categoryRoute.post('/add-category', authIsAdmin, upload.array('images', 1), addCategoryController);
+categoryRoute.get('/list-category', authIsAdmin, listCategoryController);
+categoryRoute.get('/category-by-id/:categoryId', authIsAdmin, findCategoryByIdController);
+categoryRoute.post('/update-category/:categoryId', authIsAdmin, upload.array('images', 1), updateCategoryController);
+categoryRoute.delete('/delete-category/:categoryId', authIsAdmin, removeCategoryController);
 
 export default categoryRoute;

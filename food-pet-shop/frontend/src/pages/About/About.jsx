@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./About.scss";
 
 const About = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
     return (
         <div className="about-pet-shop">
             <header className="about-header">

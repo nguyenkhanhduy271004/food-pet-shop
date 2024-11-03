@@ -7,6 +7,7 @@ import visa_icon from './visa_icon.webp'
 import paypal_icon from './paypal_icon.png'
 import mastercard_icon from './mastercard_icon.png'
 import code_icon from './cod_icon.webp'
+import error_image from "./DALL·E 2024-11-03 20.26.18 - A playful 404 error page for a pet food website. The design includes the text '404' prominently, with cute pet-themed elements such as a dog or cat lo.webp"
 
 
 export const assets = {
@@ -18,7 +19,8 @@ export const assets = {
     visa_icon,
     paypal_icon,
     mastercard_icon,
-    code_icon
+    code_icon,
+    error_image
 }
 export const dogCategories = [
     {

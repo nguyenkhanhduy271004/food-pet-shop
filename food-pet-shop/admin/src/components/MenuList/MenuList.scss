@@ -8,3 +8,50 @@
     font-size: 1rem;
     position: relative;
 }
+
+.ant-menu-submenu-inline {
+    width: 100%;
+    margin-left: -2px;
+}
+
+.menu-bar {
+
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+        display: flex;
+        align-items: center;
+        padding-left: 24px !important;
+        width: 100%;
+
+        .anticon {
+            margin-right: 8px;
+        }
+    }
+
+    .ant-menu-submenu-title {
+        padding-left: 24px !important;
+    }
+
+    .ant-menu-submenu-arrow {
+        margin-left: auto;
+    }
+
+    .ant-menu-sub {
+        padding-left: 0px;
+        background: transparent;
+    }
+
+    .ant-menu-item a {
+        display: flex;
+        align-items: center;
+    }
+
+    .ant-menu-item-selected {
+        background: transparent !important;
+        font-weight: bold;
+    }
+
+    .ant-menu-sub .ant-menu-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}

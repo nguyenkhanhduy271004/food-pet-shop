@@ -34,22 +34,30 @@ const authMiddleware = async (req, res, next) => {
 
 
 const authIsAdmin = async (req, res, next) => {
-    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+    let token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+    if (!token && req.cookies && req.cookies.accessToken) {
+        token = req.cookies.accessToken;
+    }
+
     if (!token) {
-        return res.json({ success: false, message: 'Not authorized. Login Again' });
+        return res.status(401).json({ success: false, message: 'Not authorized. Login Again' });
     }
 
     try {
         const token_decode = jwt.verify(token, process.env.JWT_SECRET);
+
         if (token_decode.isAdmin) {
             next();
         } else {
-            return res.json({ success: false, message: 'Not authorized to access' });
+            return res.status(403).json({ success: false, message: 'Not authorized to access' });
         }
     } catch (err) {
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ success: false, message: 'Token expired. Please login again.' });
+        }
         console.log(err);
-        res.json({ success: false, message: 'Invalid token. Please login again.' });
+        return res.status(401).json({ success: false, message: 'Invalid token. Please login again.' });
     }
 };
 
-export default authMiddleware
+export { authMiddleware, authIsAdmin }

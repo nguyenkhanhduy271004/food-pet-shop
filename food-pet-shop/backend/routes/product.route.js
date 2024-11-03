@@ -1,5 +1,5 @@
 import express from 'express'
-import authMiddleware from '../middleware/auth.js'
+import { authMiddleware, authIsAdmin } from '../middleware/auth.js'
 import { addProduct, addBulkProducts, removeProduct, updateProduct, listProduct, addProductToWishList, getWishList, removeProductFromWishList } from '../controllers/product.controller.js'
 import multer from 'multer'
 
@@ -14,10 +14,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-productRoute.post('/add', upload.array('images', 10), addProduct)
+productRoute.post('/add', authIsAdmin, upload.array('images', 10), addProduct)
 productRoute.post('/addBulk', addBulkProducts);
-productRoute.post('/remove', removeProduct)
-productRoute.post('/update', upload.array('images', 10), updateProduct)
+productRoute.post('/remove', authIsAdmin, removeProduct)
+productRoute.post('/update', authIsAdmin, upload.array('images', 10), updateProduct)
 productRoute.get('/list', listProduct)
 productRoute.post('/wish-list', authMiddleware, addProductToWishList)
 productRoute.get('/wish-list', authMiddleware, getWishList)

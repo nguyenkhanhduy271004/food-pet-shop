@@ -28,6 +28,7 @@ function ItemDetails() {
         if (item.image.length > 0) {
             setUrlImage(item.image[0]);
         }
+        window.scrollTo(0, 0);
     }, [item.image]);
 
     const getRelatedProducts = () => {

@@ -1,50 +1,41 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { HomeOutlined, ProductOutlined, SettingOutlined, AppstoreAddOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { HomeOutlined, SettingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 
 import './MenuList.scss';
-import Category from '../../pages/Category/Category';
 
 function MenuList({ darkTheme }) {
     const location = useLocation();
 
-    const menuItems = [
-        {
-            key: '/',
-            icon: <HomeOutlined />,
-            label: <Link to="/">Dashboard</Link>,
-        },
-        {
-            key: '/add',
-            icon: <AppstoreAddOutlined />,
-            label: <Link to="/add">Add</Link>,
-        },
-        {
-            key: '/list',
-            icon: <ProductOutlined />,
-            label: <Link to="/list">Products</Link>,
-        },
-        {
-            key: '/categories',
-            icon: <ProductOutlined />,
-            label: <Link to="/categories">Categories</Link>,
-        },
-        {
-            key: '/orders',
-            icon: <ShoppingCartOutlined />,
-            label: <Link to='/orders'>Orders</Link>
-        },
-    ];
-
     return (
         <Menu
             theme={darkTheme ? 'dark' : 'light'}
-            mode='inline'
-            className='menu-bar'
+            mode="inline"
+            className="menu-bar"
             selectedKeys={[location.pathname]}
-            items={menuItems}
-        />
+            defaultOpenKeys={['products']}
+        >
+            <Menu.Item key="/" icon={<HomeOutlined />}>
+                <Link to="/">Dashboard</Link>
+            </Menu.Item>
+
+            <Menu.SubMenu key="products" icon={<SettingOutlined />} title="Products">
+                <Menu.Item key="/add">
+                    <Link to="/add">Add Product</Link>
+                </Menu.Item>
+                <Menu.Item key="/list">
+                    <Link to="/list">Product List</Link>
+                </Menu.Item>
+                <Menu.Item key="/categories">
+                    <Link to="/categories">Categories</Link>
+                </Menu.Item>
+            </Menu.SubMenu>
+
+            <Menu.Item key="/orders" icon={<ShoppingCartOutlined />}>
+                <Link to="/orders">Orders</Link>
+            </Menu.Item>
+        </Menu>
     );
 }
 

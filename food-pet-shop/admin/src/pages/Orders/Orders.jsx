@@ -2,11 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Select, Modal, Table, Image, Divider, Card, Descriptions, Button, Space, Pagination } from 'antd';
 import './Orders.scss';
 import { StoreContext } from '../../context/StoreContext';
-import { assets } from '../../assets/assets';
 import axios from 'axios';
 
 function Orders() {
-    const { url, orders, fetchDataOrders } = useContext(StoreContext);
+    const { url, orders, fetchDataOrders, token } = useContext(StoreContext);
     const [modalDetails, setModalDetails] = useState(false);
     const [itemDetail, setItemDetail] = useState({ address: {}, items: [] });
     const [dataOrders, setDataOrders] = useState([]);
@@ -44,19 +43,28 @@ function Orders() {
         },
     ];
 
-    const handleStatusProduct = async (value, orderId) => { // Changed here
+    const handleStatusProduct = async (value, orderId) => {
         try {
             const response = await axios.post(`${url}/api/order/update-status`, {
                 orderId,
-                status: value, // Directly use value
+                status: value,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                withCredentials: true
             });
+
             if (response.data.success) {
                 await fetchDataOrders();
+                message.success('Order status updated successfully');
             } else {
                 console.error('Error updating order status');
+                message.error('Failed to update order status');
             }
         } catch (error) {
-            console.error(error);
+            console.error('Error updating order status:', error);
+            message.error('An error occurred while updating the order status');
         }
     };
 
@@ -69,13 +77,11 @@ function Orders() {
         setSortBy(value);
     };
 
-    // Pagination settings
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
-    const pageSize = 10; // Number of orders per page
-
+    const pageSize = 10;
     const paginatedOrders = dataOrders.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
     useEffect(() => {
@@ -148,7 +154,7 @@ function Orders() {
                                         </Descriptions.Item>
                                     </Descriptions>
                                     <Select
-                                        onChange={(value) => handleStatusProduct(value, order._id)} // Changed here
+                                        onChange={(value) => handleStatusProduct(value, order._id)}
                                         defaultValue={order.status}
                                         style={{ width: 200 }}
                                     >
@@ -161,7 +167,6 @@ function Orders() {
                         </Space>
                     </div>
 
-                    {/* Pagination */}
                     <Pagination
                         current={currentPage}
                         total={dataOrders.length}

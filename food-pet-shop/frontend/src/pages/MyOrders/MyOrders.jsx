@@ -78,6 +78,7 @@ function MyOrders() {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         if (token) {
             fetchOrders();
         }
@@ -89,6 +90,7 @@ function MyOrders() {
         } else {
             setDataOrders(data.filter(order => order.status === sortBy));
         }
+
     }, [sortBy]);
 
     const handlePaginationChange = (page, pageSize) => {

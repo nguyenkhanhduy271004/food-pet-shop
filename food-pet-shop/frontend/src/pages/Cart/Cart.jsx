@@ -39,6 +39,7 @@ const Cart = () => {
             setDataSource(data);
             setLoading(false);
         };
+        window.scrollTo(0, 0);
         fetchData();
     }, [productList, cartItems, url]);
 

@@ -39,7 +39,11 @@ const loginUserService = async (username, password) => {
     const access_token = generateAccessToken(user);
     const refresh_token = generateRefreshToken(user);
 
-    return { success: true, data: { access_token, refresh_token } };
+    if (!user.isAdmin) {
+        return { success: true, data: { access_token, refresh_token } };
+    } else {
+        return { success: true, data: { access_token, refresh_token, isAdmin: user.isAdmin } };
+    }
 };
 
 const registerUserService = async (username, password) => {

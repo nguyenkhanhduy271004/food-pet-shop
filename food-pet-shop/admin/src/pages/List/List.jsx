@@ -9,7 +9,7 @@ const { Search } = Input;
 const { Dragger } = Upload;
 
 function List() {
-    const { productList, fetchList, url } = useContext(StoreContext);
+    const { productList, fetchList, url, token } = useContext(StoreContext);
     const [open, setOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
     const [filteredProductList, setFilteredProductList] = useState([]);
@@ -74,9 +74,8 @@ function List() {
             formData.append('existingImages', JSON.stringify(editingProduct.image || []));
 
             const response = await axios.post(`${url}/api/product/update`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+                headers: { token },
+                withCredentials: true
             });
 
             if (response.data.success) {
