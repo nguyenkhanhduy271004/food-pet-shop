@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     cartData: { type: Object, default: {} },
     access_token: { type: String, unique: true },
     refresh_token: { type: String, unique: true },
-    isAdmin: { type: Boolean, unique: true, default: false }
+    isAdmin: { type: Boolean, default: false },
+    wishList: [{ type: mongoose.Schema.Types.ObjectId, ref: "product" }]
 }, {
     timestamps: true,
     minimize: true

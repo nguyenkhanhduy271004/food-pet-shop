@@ -62,13 +62,21 @@ function Navbar({ setShowModalLogin }) {
         {
             key: '2',
             label: (
+                <Link to='/wish-list'>
+                    Wish list
+                </Link>
+            ),
+        },
+        {
+            key: '3',
+            label: (
                 <Link to='/my-orders'>
                     Đơn hàng
                 </Link>
             ),
         },
         {
-            key: '3',
+            key: '4',
             label: (
                 <a onClick={(e) => handleLogout(e)}>
                     Logout

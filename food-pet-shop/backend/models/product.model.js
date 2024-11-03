@@ -7,6 +7,8 @@ const productSchema = new mongoose.Schema({
     category: { type: String, required: true },
     subCategory: { type: String, required: true },
     stockQuantity: { type: Number, required: true },
+    quantitySold: { type: Number, default: 0 },
+    point: { type: Number, default: 0 },
     image: { type: [String], required: true },
     rate: { type: Number },
     options: { type: Array, default: [] }

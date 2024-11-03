@@ -1,31 +1,28 @@
-import React, { useContext, useState } from 'react'
-import { StoreContext } from '../../context/StoreContext'
-import { Rate, Modal, Select, InputNumber, Image, message } from 'antd'
-
-import './FoodItem.scss'
-import { useNavigate } from 'react-router-dom'
-
+import React, { useContext, useState } from 'react';
+import { StoreContext } from '../../context/StoreContext';
+import { Rate, Modal, InputNumber, Image, message } from 'antd';
+import './FoodItem.scss';
+import { useNavigate } from 'react-router-dom';
 
 function FoodItem({ item }) {
-
-    const { url, token, addToCart } = useContext(StoreContext)
-    const [messageApi, contextHolder] = message.useMessage()
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [selectedQuantity, setSelectedQuantity] = useState(1)
-    const [isCustomQuantity, setIsCustomQuantity] = useState(true)
-    const navigate = useNavigate()
+    const { url, token, addToCart } = useContext(StoreContext);
+    const [messageApi, contextHolder] = message.useMessage();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [isCustomQuantity, setIsCustomQuantity] = useState(true);
+    const navigate = useNavigate();
 
     const showModal = () => {
-        setIsModalVisible(true)
-    }
+        setIsModalVisible(true);
+    };
 
     const handleOk = () => {
-        setIsModalVisible(false)
-    }
+        setIsModalVisible(false);
+    };
 
     const handleCancel = () => {
-        setIsModalVisible(false)
-    }
+        setIsModalVisible(false);
+    };
 
     const handleQuantityChange = (value) => {
         if (value === 10) {
@@ -34,31 +31,27 @@ function FoodItem({ item }) {
             setIsCustomQuantity(false);
             setSelectedQuantity(Number(value));
         }
-    }
+    };
 
     const handleCustomQuantityChange = (value) => {
         setSelectedQuantity(value);
-    }
+    };
 
     const handleAddToCart = (itemId, quantity) => {
         if (token === '') {
             messageApi.open({
                 type: 'error',
                 content: 'Vui lòng đăng nhập',
-            })
+            });
         } else {
-            addToCart(itemId, quantity)
-            messageApi.open({
-                type: 'success',
-                content: 'Đã thêm vào giỏ hàng thành công',
-            })
-            setIsModalVisible(false)
+            addToCart(itemId, quantity);
+            setIsModalVisible(false);
         }
-    }
+    };
 
     const handleClickItem = (item) => {
-        navigate(`/products/${item._id}`, { state: { item } })
-    }
+        navigate(`/products/${item._id}`, { state: { item } });
+    };
 
     return (
         <>
@@ -70,14 +63,21 @@ function FoodItem({ item }) {
                         <div onClick={() => handleClickItem(item)}>
                             <h5 className="card-title">{item.name}</h5>
                             <div className='rating-star'>
-                                <Rate disabled defaultValue={item.rate > 0 ? item.rate : 5} />
+                                <Rate disabled defaultValue={item.rate > 0 ? item.rate : 5} style={{ fontSize: '12px' }} />
+                                <span style={{ marginLeft: '16px' }}>Đã bán ({item.quantitySold ? item.quantitySold : 0})</span>
                             </div>
                             <span className='price'>{item.price}.000vnđ</span>
                         </div>
-                        {item.stockQuantity !== 0 ? <button className="btn-choose" onClick={showModal}>Choose options</button> : <button className="btn-sold-out" disabled>Sold out</button>}
+                        <button
+                            className={item.stockQuantity !== 0 ? "btn-choose" : "btn-sold-out"}
+                            onClick={() => handleAddToCart(item._id, 1)}
+                            disabled={item.stockQuantity === 0}
+                        >
+                            {item.stockQuantity !== 0 ? 'Thêm vào giỏ hàng' : 'Sold out'}
+                        </button>
                     </div>
                 </div>
-            </div >
+            </div>
             <Modal title="Product Details" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
                 <div className='product-detail-card'>
                     <div className="product-name">{item.name}</div>
@@ -89,28 +89,6 @@ function FoodItem({ item }) {
                         width={200}
                         src={`${url}/images/${item.image[0]}`}
                     />
-
-                    {/* {!isCustomQuantity && (
-                        <Select
-                            placeholder="Select a quantity"
-                            optionFilterProp="label"
-                            options={[
-                                { value: 1, label: '1' },
-                                { value: 2, label: '2' },
-                                { value: 3, label: '3' },
-                                { value: 4, label: '4' },
-                                { value: 5, label: '5' },
-                                { value: 6, label: '6' },
-                                { value: 7, label: '7' },
-                                { value: 8, label: '8' },
-                                { value: 9, label: '9' },
-                                { value: 10, label: '10+' },
-                            ]}
-                            style={{ width: '40%' }}
-                            defaultValue={1}
-                            onChange={handleQuantityChange}
-                        />
-                    )} */}
 
                     {isCustomQuantity && (
                         <InputNumber
@@ -126,7 +104,7 @@ function FoodItem({ item }) {
                 </div>
             </Modal>
         </>
-    )
+    );
 }
 
-export default FoodItem
+export default FoodItem;

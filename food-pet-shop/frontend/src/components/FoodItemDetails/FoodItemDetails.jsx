@@ -16,10 +16,6 @@ function FoodItemDetails({ product }) {
             })
         } else {
             addToCart(itemId, quantity)
-            messageApi.open({
-                type: 'success',
-                content: 'Đã thêm vào giỏ hàng thành công',
-            })
         }
     }
 

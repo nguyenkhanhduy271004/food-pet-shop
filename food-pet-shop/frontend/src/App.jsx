@@ -16,6 +16,7 @@ import About from './pages/About/About';
 import Footer from './components/Footer/Footer';
 
 import './App.css'
+import WishList from './pages/WishList/WishList';
 
 const override = {
   display: 'block',
@@ -96,6 +97,7 @@ function App() {
               <Route path='/all-products/cat-accessories' element={<AllProduct category='cat' subCategory='accessories' title='Cat Accessories' />} />
               <Route path='/all-products/cat-carriers' element={<AllProduct category='cat' subCategory='carriers' title='Cat Carriers' />} />
               <Route path="/products/:id" element={<ItemDetails />} />
+              <Route path="/wish-list" element={<WishList />} />
             </Routes>
             <Footer />
           </div>

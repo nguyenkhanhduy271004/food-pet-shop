@@ -1,5 +1,6 @@
 import express from 'express'
-import { addProduct, addBulkProducts, removeProduct, updateProduct, listProduct } from '../controllers/product.controller.js'
+import authMiddleware from '../middleware/auth.js'
+import { addProduct, addBulkProducts, removeProduct, updateProduct, listProduct, addProductToWishList, getWishList, removeProductFromWishList } from '../controllers/product.controller.js'
 import multer from 'multer'
 
 const productRoute = express.Router()
@@ -18,6 +19,10 @@ productRoute.post('/addBulk', addBulkProducts);
 productRoute.post('/remove', removeProduct)
 productRoute.post('/update', upload.array('images', 10), updateProduct)
 productRoute.get('/list', listProduct)
+productRoute.post('/wish-list', authMiddleware, addProductToWishList)
+productRoute.get('/wish-list', authMiddleware, getWishList)
+productRoute.post('/wish-list-delete', authMiddleware, removeProductFromWishList);
+
 
 
 export default productRoute

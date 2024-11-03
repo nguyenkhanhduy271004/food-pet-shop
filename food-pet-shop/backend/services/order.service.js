@@ -15,10 +15,22 @@ const placeOrderService = async (userId, items, amount, address) => {
         await Promise.all(items.map(async (item) => {
             const product = await productModel.findById(item._id);
             if (product) {
-                const newStockQuantity = product.stockQuantity - item.quantity;
-                await productModel.findByIdAndUpdate(item._id, { stockQuantity: newStockQuantity });
+                let newStockQuantity;
+                if (product.stockQuantity === 1) {
+                    newStockQuantity = 0;
+                } else {
+                    newStockQuantity = product.stockQuantity - item.quantity;
+                }
+
+                const currentQuantitySold = Number(product.quantity) || 0;
+                const currentItemQuantity = Number(item.quantity) || 0;
+
+                const quantitySold = currentQuantitySold + currentItemQuantity;
+
+                await productModel.findByIdAndUpdate(item._id, { stockQuantity: newStockQuantity, quantitySold: quantitySold });
             }
         }));
+
 
         await newOrder.save();
         await userModel.findByIdAndUpdate(userId, { cartData: {} });

@@ -11,6 +11,7 @@ import Add from './pages/Add/Add';
 import List from './pages/List/List';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Orders from './pages/Orders/Orders';
+import Category from './pages/Category/Category';
 
 const { Header, Sider, Content } = Layout;
 
@@ -54,6 +55,7 @@ function App() {
             <Route path='/add' element={<Add url={url} />} />
             <Route path='/list' element={<List url={url} />} />
             <Route path='/orders' element={<Orders url={url} />} />
+            <Route path='/categories' element={<Category url={url} />} />
           </Routes>
         </Content>
       </Layout>

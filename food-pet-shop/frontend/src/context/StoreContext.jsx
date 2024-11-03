@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { message } from 'antd';
 
 export const StoreContext = createContext(null);
 
@@ -9,24 +10,39 @@ const StoreContextProvider = (props) => {
     const [productList, setProductList] = useState([]);
     const [token, setToken] = useState('');
     const [showModalLogin, setShowModalLogin] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
 
     const addToCart = async (itemId, quantity) => {
-        if (!cartItems[itemId]) {
-            setCartItems((prev) => ({ ...prev, [itemId]: quantity }))
-        } else {
-            const currentQuantity = cartItems[itemId]
-            setCartItems((prev) => ({ ...prev, [itemId]: currentQuantity + quantity }))
-        }
-
         if (token) {
             try {
-                await axios.post(url + '/api/cart/add', { itemId, quantity }, { headers: { token }, withCredentials: true });
+                const response = await axios.post(url + '/api/cart/add', { itemId, quantity }, { headers: { token }, withCredentials: true });
+                if (!response.data.success) {
+                    messageApi.open({
+                        type: 'error',
+                        content: response.data.message,
+                    });
+                    return false;
+                } else {
+                    if (!cartItems[itemId]) {
+                        setCartItems((prev) => ({ ...prev, [itemId]: quantity }));
+                    } else {
+                        const currentQuantity = cartItems[itemId];
+                        setCartItems((prev) => ({ ...prev, [itemId]: currentQuantity + quantity }));
+                    }
+                    messageApi.open({
+                        type: 'success',
+                        content: response.data.message,
+                    });
+                }
                 await fetchProducts();
             } catch (err) {
                 console.error('Failed to add item to cart:', err);
+                return false;
             }
         }
+        return true;
     };
+
 
     const removeFromCart = async (itemId) => {
         setCartItems((prev) => ({
@@ -46,10 +62,6 @@ const StoreContextProvider = (props) => {
 
     const getTotalQuantity = () => {
         let totalQuantity = 0;
-        console.log(Object.keys(cartItems).length);
-        console.log(cartItems);
-
-
         for (const itemId in cartItems) {
             if (cartItems[itemId] > 0) {
                 totalQuantity += 1;
@@ -120,6 +132,7 @@ const StoreContextProvider = (props) => {
 
     return (
         <StoreContext.Provider value={contextValue}>
+            {contextHolder}
             {props.children}
         </StoreContext.Provider>
     );

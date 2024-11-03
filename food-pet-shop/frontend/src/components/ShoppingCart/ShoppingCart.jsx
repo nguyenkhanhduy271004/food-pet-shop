@@ -8,7 +8,10 @@ function ShoppingCart({ handleClickCheckOut, loading, removeFromCart, getTotalCa
             title: 'Image',
             dataIndex: 'image',
             key: 'image',
-            render: (text) => <img src={text} alt="product" style={{ width: 50 }} />,
+            render: (text) => {
+                const imageUrl = text ? text.split(',')[0] : '';
+                return <img src={imageUrl} alt="product" style={{ width: 50 }} />;
+            },
         },
         {
             title: 'Title',

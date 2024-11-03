@@ -1,11 +1,21 @@
 import productModel from "../models/product.model.js";
+import categoryModel from "../models/category.model.js";
+import userModel from "../models/user.model.js";
 import fs from 'fs';
 
 const addProductService = async (productData, imageFiles) => {
     let image_filenames = imageFiles.map(file => file.filename);
 
+    const category = await categoryModel.findOne({ name: productData.category });
+    if (!category) {
+        console.error('Category not found');
+        return;
+    }
+
+
     const product = new productModel({
         ...productData,
+        category: category._id,
         image: image_filenames,
         rate: 5
     });
@@ -96,4 +106,75 @@ const listProductService = async () => {
     }
 };
 
-export { addProductService, addBulkProductsService, removeProductService, updateProductService, listProductService };
+const addProductToWishListService = async (_id, prodId) => {
+    try {
+        const user = await userModel.findById(_id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const alreadyAdded = user.wishList.find((id) => id.toString() === prodId);
+
+        if (!alreadyAdded) {
+            const updatedUser = await userModel.findByIdAndUpdate(
+                _id,
+                { $push: { wishList: prodId } },
+                { new: true }
+            ).select('-password');
+            return { success: true, data: updatedUser }
+        } else {
+            console.log("Product is already in the wishlist.");
+            return { success: false, message: "Product is already in the wishlist." };
+        }
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const getWishListService = async (userId) => {
+
+    try {
+        const user = await userModel.findById(userId).populate('wishList');;
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+
+        return { success: true, products: user.wishList };
+    } catch (error) {
+        throw new Error(error);
+
+    }
+}
+
+const removeProductFromWishListService = async (userId, itemId) => {
+    try {
+        const user = await userModel.findById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const alreadyInWishlist = user.wishList.includes(itemId);
+        if (!alreadyInWishlist) {
+            return { message: "Product is not in the wishlist." };
+        }
+
+        const updatedUser = await userModel.findByIdAndUpdate(
+            userId,
+            { $pull: { wishList: itemId } },
+            { new: true }
+        ).select('-password');
+
+        return { success: true, data: updatedUser }
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+
+
+export {
+    addProductService, addBulkProductsService,
+    removeProductService, updateProductService,
+    listProductService, addProductToWishListService,
+    getWishListService, removeProductFromWishListService
+};

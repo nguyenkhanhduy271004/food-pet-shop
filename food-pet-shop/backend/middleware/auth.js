@@ -13,9 +13,13 @@ const authMiddleware = async (req, res, next) => {
 
     try {
         const token_decode = jwt.verify(token, process.env.JWT_SECRET);
-        req.body.userId = token_decode.id;
-        req.body.accessToken = token;
-        req.body.refreshToken = req.cookies.refreshToken;
+
+        req.body = {
+            ...req.body,
+            userId: token_decode.id,
+            accessToken: token,
+            refreshToken: req.cookies.refreshToken
+        };
 
         next();
     } catch (err) {

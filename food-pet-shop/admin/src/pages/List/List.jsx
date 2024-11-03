@@ -58,12 +58,11 @@ function List() {
         try {
             const formData = new FormData();
             formData.append('id', editingProduct._id);
-            formData.append('data[name]', editingProduct.name);
-            formData.append('data[brand]', editingProduct.brand);
-            formData.append('data[price]', editingProduct.price);
-            formData.append('data[category]', editingProduct.category);
-            formData.append('data[subCategory]', editingProduct.subCategory);
-            formData.append('data[stockQuantity]', editingProduct.stockQuantity);
+            Object.keys(editingProduct).forEach(key => {
+                if (key !== 'image') {
+                    formData.append(`data[${key}]`, editingProduct[key]);
+                }
+            });
 
             images.forEach(image => {
                 if (image.originFileObj) {
@@ -123,36 +122,12 @@ function List() {
     };
 
     const columns = [
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: 'Brand',
-            dataIndex: 'brand',
-            key: 'brand',
-        },
-        {
-            title: 'Price',
-            dataIndex: 'price',
-            key: 'price',
-        },
-        {
-            title: 'Category',
-            key: 'category',
-            dataIndex: 'category',
-        },
-        {
-            title: 'Subcategory',
-            key: 'subCategory',
-            dataIndex: 'subCategory',
-        },
-        {
-            title: 'Stock Quantity',
-            key: 'stockQuantity',
-            dataIndex: 'stockQuantity',
-        },
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Brand', dataIndex: 'brand', key: 'brand' },
+        { title: 'Price', dataIndex: 'price', key: 'price' },
+        { title: 'Category', dataIndex: 'category', key: 'category' },
+        { title: 'Subcategory', dataIndex: 'subCategory', key: 'subCategory' },
+        { title: 'Stock Quantity', dataIndex: 'stockQuantity', key: 'stockQuantity' },
         {
             title: 'Action',
             key: 'action',
@@ -161,7 +136,6 @@ function List() {
                     <Button type="primary" onClick={() => showModal(record)}><EditOutlined /></Button>
                     <Popconfirm
                         title="Delete the product"
-                        description="Are you sure to delete this product?"
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         onConfirm={() => removeProduct(record._id)}
                         okText="Yes"
@@ -190,48 +164,34 @@ function List() {
                 {editingProduct && (
                     <Form layout="vertical">
                         <Form.Item label="Name">
-                            <Input
-                                value={editingProduct.name}
-                                name="name"
-                                onChange={handleEditChange}
-                            />
+                            <Input value={editingProduct.name} name="name" onChange={handleEditChange} />
                         </Form.Item>
                         <Form.Item label="Brand">
-                            <Input
-                                value={editingProduct.brand}
-                                name="brand"
-                                onChange={handleEditChange}
-                            />
+                            <Input value={editingProduct.brand} name="brand" onChange={handleEditChange} />
                         </Form.Item>
                         <Form.Item label="Price">
-                            <Input
-                                value={editingProduct.price}
-                                name="price"
-                                onChange={handleEditChange}
-                                type="number"
-                            />
+                            <Input value={editingProduct.price} name="price" onChange={handleEditChange} type="number" />
                         </Form.Item>
                         <Form.Item label="Category">
-                            <Input
-                                value={editingProduct.category}
-                                name="category"
-                                onChange={handleEditChange}
-                            />
+                            <Input value={editingProduct.category} name="category" onChange={handleEditChange} />
                         </Form.Item>
                         <Form.Item label="Subcategory">
-                            <Input
-                                value={editingProduct.subCategory}
-                                name="subCategory"
-                                onChange={handleEditChange}
-                            />
+                            <Input value={editingProduct.subCategory} name="subCategory" onChange={handleEditChange} />
                         </Form.Item>
                         <Form.Item label="Stock Quantity">
-                            <Input
-                                value={editingProduct.stockQuantity}
-                                name="stockQuantity"
-                                onChange={handleEditChange}
-                                type="number"
-                            />
+                            <Input value={editingProduct.stockQuantity} name="stockQuantity" onChange={handleEditChange} type="number" />
+                        </Form.Item>
+                        <Form.Item label="Quantity Sold">
+                            <Input value={editingProduct.quantitySold} name="quantitySold" onChange={handleEditChange} type="number" />
+                        </Form.Item>
+                        <Form.Item label="Point">
+                            <Input value={editingProduct.point} name="point" onChange={handleEditChange} type="number" />
+                        </Form.Item>
+                        <Form.Item label="Rate">
+                            <Input value={editingProduct.rate} name="rate" onChange={handleEditChange} type="number" />
+                        </Form.Item>
+                        <Form.Item label="Options">
+                            <Input value={editingProduct.options.join(', ')} name="options" onChange={handleEditChange} />
                         </Form.Item>
                         <Form.Item label="Images">
                             <Dragger

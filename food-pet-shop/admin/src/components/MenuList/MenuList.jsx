@@ -4,6 +4,7 @@ import { HomeOutlined, ProductOutlined, SettingOutlined, AppstoreAddOutlined, Sh
 import { Link, useLocation } from 'react-router-dom';
 
 import './MenuList.scss';
+import Category from '../../pages/Category/Category';
 
 function MenuList({ darkTheme }) {
     const location = useLocation();
@@ -23,6 +24,11 @@ function MenuList({ darkTheme }) {
             key: '/list',
             icon: <ProductOutlined />,
             label: <Link to="/list">Products</Link>,
+        },
+        {
+            key: '/categories',
+            icon: <ProductOutlined />,
+            label: <Link to="/categories">Categories</Link>,
         },
         {
             key: '/orders',

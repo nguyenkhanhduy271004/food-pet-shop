@@ -13,7 +13,11 @@ const addToCartService = async (userId, itemId, quantity) => {
             return { success: false, message: 'Product not found' };
         }
 
-        if (quantity > product.stockQuantity) {
+
+
+        if (product.stockQuantity - quantity < 0) {
+            console.log(123);
+
             return { success: false, message: 'Insufficient stock' };
         }
 
