@@ -16,15 +16,35 @@ const authMiddleware = async (req, res, next) => {
 
         req.body = {
             ...req.body,
-            userId: token_decode.id,
             accessToken: token,
-            refreshToken: req.cookies.refreshToken
+            userId: token_decode.id,
+            token_decode: token_decode,
+            refreshToken: req.cookies.refreshToken,
         };
 
         next();
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
             return refreshTokenUser(req, res);
+        }
+        console.log(err);
+        return res.status(401).json({ success: false, message: 'Invalid token. Please login again.' });
+    }
+}
+
+const authIsAdminTest = (req, res) => {
+    try {
+        const { isAdmin } = req.body.token_decode.isAdmin;
+
+        if (isAdmin) {
+            next();
+        } else {
+            return res.status(403).json({ success: false, message: 'Not authorized to access' });
+        }
+    } catch (error) {
+        console.log(error);
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ success: false, message: 'Token expired. Please login again.' });
         }
         console.log(err);
         return res.status(401).json({ success: false, message: 'Invalid token. Please login again.' });

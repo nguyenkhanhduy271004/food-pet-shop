@@ -10,12 +10,13 @@ import orderRoute from './routes/order.route.js'
 import customerReviewRoute from './routes/customer.review.route.js'
 import categoryRoute from './routes/category.route.js'
 import contactInfoRoute from './routes/contact.info.route.js'
+import { createVNPayPaymentUrl, vnpayReturn } from './controllers/payment.controller.js';
 
 
 
 // app config
 const app = express()
-const port = 4000
+const port = process.env.PORT || 4000
 
 //middleware
 app.use(express.json())
@@ -50,6 +51,8 @@ app.use('/api/reviews', customerReviewRoute)
 app.use('/api/category', categoryRoute)
 app.use('/api/contact-info', contactInfoRoute)
 app.use('/images', express.static('uploads'))
+app.post("/create-payment-url", createVNPayPaymentUrl);
+app.get("/vnpay_return", vnpayReturn);
 
 app.get('/', (req, res) => {
     res.send('Api Working')
